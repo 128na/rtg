@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+import json
+import argparse
 
 def rotate(image, angle):
     h, w = image.shape[:2]
@@ -27,32 +29,33 @@ def rotate(image, angle):
 
     return resized_image
 
-if __name__ == "__main__":
-    ruleSet = [
-        {"input": "input/none.png", "output": "output/-.png", "rotate": 45},
-        {"input": "input/straight.png", "output": "output/ns.png", "rotate": 45},
-        {"input": "input/straight.png", "output": "output/ew.png", "rotate": -45},
-        {"input": "input/end.png", "output": "output/e.png", "rotate": 45},
-        {"input": "input/end.png", "output": "output/s.png", "rotate": -45},
-        {"input": "input/end.png", "output": "output/n.png", "rotate": 135},
-        {"input": "input/end.png", "output": "output/w.png", "rotate": -135},
-        {"input": "input/corner.png", "output": "output/ne.png", "rotate": 45},
-        {"input": "input/corner.png", "output": "output/se.png", "rotate": -45},
-        {"input": "input/corner.png", "output": "output/nw.png", "rotate": 135},
-        {"input": "input/corner.png", "output": "output/sw.png", "rotate": -135},
-        {"input": "input/t_junction.png", "output": "output/new.png", "rotate": 45},
-        {"input": "input/t_junction.png", "output": "output/nse.png", "rotate": -45},
-        {"input": "input/t_junction.png", "output": "output/nsw.png", "rotate": 135},
-        {"input": "input/t_junction.png", "output": "output/sew.png", "rotate": -135},
-        {"input": "input/diagonal.png", "output": "output/d_ne.png", "rotate": 45},
-        {"input": "input/diagonal.png", "output": "output/d_se.png", "rotate": -45},
-        {"input": "input/diagonal.png", "output": "output/d_nw.png", "rotate": 135},
-        {"input": "input/diagonal.png", "output": "output/d_sw.png", "rotate": -135},
-        {"input": "input/cross.png", "output": "output/nsew.png", "rotate": 45},
-    ]
+def load_json(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            return data
+    except FileNotFoundError:
+        raise FileNotFoundError(f"ファイルが見つかりません: {file_path}")
+    except json.JSONDecodeError:
+        raise json.JSONDecodeError(f"JSONファイルの読み込み中にエラーが発生しました: {file_path}")
 
-    for rule in ruleSet:
-        print(rule)
-        image = cv2.imread(rule["input"])
-        image = rotate(image, rule["rotate"])
-        cv2.imwrite(rule["output"], image)
+
+if __name__ == "__main__":
+    # コマンドライン引数をパースする
+    parser = argparse.ArgumentParser(description="指定されたJSONファイルを読み込むスクリプト")
+    parser.add_argument("file_name", help="読み込みたいJSONファイルのパス")
+    args = parser.parse_args()
+
+    # ファイル名を引数から取得
+    file_name = args.file_name
+    try:
+        json_data = load_json(file_name)
+        for rule in json_data:
+            print(rule)
+            image = cv2.imread(rule["input"])
+            image = rotate(image, rule["rotate"])
+            cv2.imwrite(rule["output"], image)
+
+    except Exception as e:
+        print(f"エラーが発生しました: {e}")
+
