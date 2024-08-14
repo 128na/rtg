@@ -2,7 +2,7 @@
 
 平面画像からSimutransの道路アドオン用画像をいい感じに生成させるツールになる予定
 
-![平面画像からの変換イメージ](./sample.png)
+![平面画像からの変換イメージ](./thumb.png)
 
 # 導入 / Installation
 
@@ -15,5 +15,5 @@ pip install -r requirements.txt
 # 使い方 / Usage
 
 ```
-python .\main.py .\sample.json
+python .\main.py .\demo.json
 ```
