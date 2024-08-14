@@ -18,6 +18,16 @@ class Transforms:
         )
 
     @staticmethod
+    def resize(r):
+        return np.array(
+            [
+                [r, 0, 0],
+                [0, r, 0],
+            ],
+            np.float32,
+        )
+
+    @staticmethod
     def to_n():
         return np.array(
             [

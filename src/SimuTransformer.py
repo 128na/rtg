@@ -12,6 +12,8 @@ class SimuTransformer:
     debug = False
     ruleset = {}
 
+    cachedKV = {}
+
     def __init__(self, debug=False):
         self.debug = debug
 
@@ -30,14 +32,17 @@ class SimuTransformer:
                 print(kwargs)
 
     def get_value(self, key):
-        keys = key.split(".")
-        value = self.ruleset
-        for k in keys:
-            if k in value:
-                value = value[k]
-            else:
-                raise Errors.RulesetKeyError(key)
-        return value
+        if key not in self.cachedKV:
+            keys = key.split(".")
+            value = self.ruleset
+            for k in keys:
+                if k in value:
+                    value = value[k]
+                else:
+                    raise Errors.RulesetKeyError(key)
+
+                self.cachedKV[key] = value
+        return self.cachedKV[key]
 
     def load_image(self, source):
         return cv2.imread(os.path.join(self.get_value("input.directory"), source))
@@ -46,8 +51,8 @@ class SimuTransformer:
         cv2.imwrite(os.path.join(self.get_value("output.directory"), save_as), image)
 
     def apply(self, image, affine):
-        size = self.get_value("input.size")
-        r = self.get_value("output.size") / size
+        size = self.get_value("input.size") * self.get_value("options.resolution")
+        r = self.get_value("output.size") * self.get_value("options.resolution") / size
 
         # 平行移動
         affine[0][2] *= size
@@ -57,10 +62,21 @@ class SimuTransformer:
         affine *= r
         output_size = (int(size * r), int(size * r))
 
-        flags = self.get_value("options.interpolation_flags")
+        self.dump(affine=affine, output_size=output_size)
+        return cv2.warpAffine(image, affine, output_size)
 
-        self.dump(affine=affine, output_size=output_size, flags=flags)
-        return cv2.warpAffine(image, affine, output_size, flags)
+    def expand(self, image):
+        r = self.get_value("options.resolution")
+        h, w = image.shape[:2]
+        output_size = (int(w * r), int(h * r))
+        return cv2.resize(image, output_size)
+
+    def shrink(self, image):
+        r = self.get_value("options.resolution")
+        h, w = image.shape[:2]
+        output_size = (int(w / r), int(h / r))
+        flags = self.get_value("options.interpolation_flags")
+        return cv2.resize(image, output_size, interpolation=flags)
 
     def transform(self):
         for rule in self.ruleset["rules"]:
@@ -71,6 +87,11 @@ class SimuTransformer:
             if self.get_value("options.transparent"):
                 image = cv2.cvtColor(image, cv2.COLOR_BGR2BGRA)
 
+            resolution = self.get_value("options.resolution")
+            if resolution != 1:
+                image = self.expand(image)
+
+            self.dump(shape=image.shape)
             affine = tf.nothing()
             for convert in rule["converts"]:
                 if hasattr(tf, convert):
@@ -81,5 +102,8 @@ class SimuTransformer:
                     raise Errors.ConvertKeyError(convert)
 
             image = self.apply(image, affine)
+
+            if resolution != 1:
+                image = self.shrink(image)
 
             self.save_image(image, rule["save_as"])
