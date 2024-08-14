@@ -15,5 +15,5 @@ pip install -r requirements.txt
 # 使い方 / Usage
 
 ```
-python .\main.py .\demo.json
+python .\main.py .\demo.yml
 ```
