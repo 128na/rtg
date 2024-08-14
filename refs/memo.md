@@ -5,3 +5,4 @@ pip install opencv-contrib-python
 
 # あふぃん
 https://qiita.com/koshian2/items/c133e2e10c261b8646bf
+https://ahozura.kasu.me/portal/?p=5454
