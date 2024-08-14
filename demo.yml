@@ -8,9 +8,9 @@ options:
   # 変換時の補完モード https://docs.opencv.org/4.10.0/da/d54/group__imgproc__transform.html
   interpolation_flags: 2
   # 線形変換時の拡大倍率
-  resolution: 1
+  resolution: 2
 input:
-  size: 512
+  size: 256
   directory: input_demo
 output:
   size: 256

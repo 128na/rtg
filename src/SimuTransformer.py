@@ -45,10 +45,14 @@ class SimuTransformer:
         return self.cachedKV[key]
 
     def load_image(self, source):
-        return cv2.imread(os.path.join(self.get_value("input.directory"), source))
+        filename = os.path.join(self.get_value("input.directory"), source)
+        self.dump(load_image=filename)
+        return cv2.imread(filename)
 
     def save_image(self, image, save_as):
-        cv2.imwrite(os.path.join(self.get_value("output.directory"), save_as), image)
+        filename = os.path.join(self.get_value("output.directory"), save_as)
+        self.dump(save_image=filename)
+        cv2.imwrite(filename, image)
 
     def apply(self, image, affine):
         size = self.get_value("input.size") * self.get_value("options.resolution")
@@ -91,7 +95,6 @@ class SimuTransformer:
             if resolution != 1:
                 image = self.expand(image)
 
-            self.dump(shape=image.shape)
             affine = tf.nothing()
             for convert in rule["converts"]:
                 if hasattr(tf, convert):
