@@ -1,24 +1,7 @@
 import argparse
-import yaml
 
 from src import SimuTransformer
-from src import Errors
-
-RTG_VERSION = 0
-
-
-def load_ruleset(file_path):
-    try:
-        with open(file_path, "r", encoding="utf-8") as file:
-            data = yaml.safe_load(file)
-
-            if "rtg_version" not in data or data["rtg_version"] != RTG_VERSION:
-                raise Errors.RTGVersionErrorRTG(RTG_VERSION)
-
-            return data
-    except FileNotFoundError:
-        raise FileNotFoundError(f"ファイルが見つかりません: {file_path}")
-
+from src import Ruleset
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -34,9 +17,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     try:
-        ruleset = load_ruleset(args.file_name)
-        simu_tranformer = SimuTransformer.SimuTransformer(args.file_name, args.debug)
-        simu_tranformer.set_ruleset(ruleset)
+        ruleset = Ruleset.Ruleset(args.file_name)
+        simu_tranformer = SimuTransformer.SimuTransformer(ruleset, args.debug)
         simu_tranformer.transform()
 
     except Exception as e:

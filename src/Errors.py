@@ -11,3 +11,7 @@ class RulesetKeyError(ValueError):
 class ConvertKeyError(ValueError):
     def __init__(self, key):
         super().__init__(f"'{key}'の変換は存在しません。")
+
+class MissingParamError(ValueError):
+    def __init__(self, key):
+        super().__init__(f"'{key}'の指定が必要です")

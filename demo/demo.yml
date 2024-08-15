@@ -1,0 +1,233 @@
+---
+title: サンプル
+description: サンプル
+rtg_version: 0
+options:
+  # 変換時の補完モード https://docs.opencv.org/4.10.0/da/d54/group__imgproc__transform.html
+  interpolation_flags: 2
+  # 線形変換時の拡大倍率
+  resolution: 2
+files:
+  - name: "市内道路"
+    source:
+      path: "demo.png"
+      default_size: 512
+    dest:
+      path: "output.png"
+      width: 1024
+      height: 2048
+      default_size: 256
+    rules:
+      - name: s
+        source:
+          location: "1.0"
+        dest:
+          location: "0.1"
+        converts:
+          - to_s
+      - name: w
+        source:
+          location: "1.0"
+        dest:
+          location: "1.1"
+        converts:
+          - to_w
+      - name: n
+        source:
+          location: "1.0"
+        dest:
+          location: "2.1"
+        converts:
+          - to_n
+      - name: e
+        source:
+          location: "1.0"
+        dest:
+          location: "3.1"
+        converts:
+          - to_e
+      - name: sw
+        source:
+          location: "0.1"
+        dest:
+          location: "0.2"
+        converts:
+          - to_e
+      - name: nw
+        source:
+          location: "0.1"
+        dest:
+          location: "1.2"
+        converts:
+          - to_s
+      - name: ne
+        source:
+          location: "0.1"
+        dest:
+          location: "2.2"
+        converts:
+          - to_w
+      - name: se
+        source:
+          location: "0.1"
+        dest:
+          location: "3.2"
+        converts:
+          - to_n
+      - name: ns
+        source:
+          location: "1.2"
+        dest:
+          location: "0.3"
+        converts:
+          - to_n
+      - name: ew
+        source:
+          location: "1.2"
+        dest:
+          location: "1.3"
+        converts:
+          - to_e
+      - name: nsew
+        source:
+          location: "1.1"
+        dest:
+          location: "2.3"
+        converts:
+          - to_n
+      - name: "-"
+        source:
+          location: "2.0"
+        dest:
+          location: "3.3"
+        converts:
+          - to_n
+      - name: new
+        source:
+          location: "2.1"
+        dest:
+          location: "0.4"
+        converts:
+          - to_e
+      - name: nse
+        source:
+          location: "2.1"
+        dest:
+          location: "1.4"
+        converts:
+          - to_s
+      - name: sew
+        source:
+          location: "2.1"
+        dest:
+          location: "2.4"
+        converts:
+          - to_w
+      - name: nsw
+        source:
+          location: "2.1"
+        dest:
+          location: "3.4"
+        converts:
+          - to_n
+      - name: up_12
+        source:
+          location: "1.2"
+        dest:
+          location: "0.5"
+        converts:
+          - to_n
+          - to_up
+      - name: up_9
+        source:
+          location: "1.2"
+        dest:
+          location: "1.5"
+        converts:
+          - to_w
+          - to_up
+      - name: up_3
+        source:
+          location: "1.2"
+        dest:
+          location: "2.5"
+        converts:
+          - to_s
+          - to_up
+      - name: up_6
+        source:
+          location: "1.2"
+        dest:
+          location: "3.5"
+        converts:
+          - to_e
+          - to_up
+      - name: up2_12
+        source:
+          location: "1.2"
+        dest:
+          location: "0.6"
+        converts:
+          - to_n
+          - to_up2
+      - name: up2_9
+        source:
+          location: "1.2"
+        dest:
+          location: "1.6"
+        converts:
+          - to_w
+          - to_up2
+      - name: up2_3
+        source:
+          location: "1.2"
+        dest:
+          location: "2.6"
+        converts:
+          - to_s
+          - to_up2
+      - name: up2_6
+        source:
+          location: "1.2"
+        dest:
+          location: "3.6"
+        converts:
+          - to_e
+          - to_up2
+      - name: d_sw
+        source:
+          location: "0.2"
+        dest:
+          location: "0.7"
+        converts:
+          - to_w
+      - name: d_nw
+        source:
+          location: "0.2"
+        dest:
+          location: "1.7"
+        converts:
+          - to_n
+      - name: d_ne
+        source:
+          location: "0.2"
+        dest:
+          location: "2.7"
+        converts:
+          - to_e
+      - name: d_se
+        source:
+          location: "0.2"
+        dest:
+          location: "3.7"
+        converts:
+          - to_s
+      - name: icon
+        source:
+          size: 32
+          location: "1.8"
+        dest:
+          size: 32
+          location: "0.0"
+        converts:
+          - keep
