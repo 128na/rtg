@@ -28,6 +28,16 @@ class Transforms:
         )
 
     @staticmethod
+    def reverse():
+        return np.array(
+            [
+                [2, 4, -1.5],
+                [-2, 4, -0.5],
+            ],
+            np.float32,
+        )
+
+    @staticmethod
     def to_n():
         return np.array(
             [

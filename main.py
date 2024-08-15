@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     try:
         ruleset = load_ruleset(args.file_name)
-        simu_tranformer = SimuTransformer.SimuTransformer(args.debug)
+        simu_tranformer = SimuTransformer.SimuTransformer(args.file_name, args.debug)
         simu_tranformer.set_ruleset(ruleset)
         simu_tranformer.transform()
 
