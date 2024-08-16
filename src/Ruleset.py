@@ -41,21 +41,21 @@ class Rule:
         self.dest = rule["dest"]
         self.converts = list(map(lambda c: Convert(c), rule["converts"]))
 
-    def source_size(self) -> int|None:
+    def source_size(self) -> int | None:
         if "size" in self.source:
             return self.source["size"]
 
-    def dest_size(self) -> int|None:
+    def dest_size(self) -> int | None:
         if "size" in self.dest:
             return self.dest["size"]
 
-    def source_location(self, size:int) -> tuple[int, int]:
-        (x, y) = self.source["location"].split(".")
+    def source_location(self, size: int) -> tuple[int, int]:
+        (y, x) = self.source["location"].split(".")
 
         return (int(x) * size, int(y) * size)
 
-    def dest_location(self, size:int) -> tuple[int, int]:
-        (x, y) = self.dest["location"].split(".")
+    def dest_location(self, size: int) -> tuple[int, int]:
+        (y, x) = self.dest["location"].split(".")
 
         return (int(x) * size, int(y) * size)
 
@@ -81,13 +81,14 @@ class File:
     def dest_path(self) -> str:
         return self.dest["path"]
 
-    def source_default_size(self) -> int|None:
+    def source_default_size(self) -> int | None:
         if "default_size" in self.source:
             return self.source["default_size"]
 
-    def dest_default_size(self) -> int|None:
+    def dest_default_size(self) -> int | None:
         if "default_size" in self.dest:
             return self.dest["default_size"]
+
 
 class Ruleset:
     yaml_path: str
@@ -119,5 +120,6 @@ class Ruleset:
 
     def resolution(self) -> int:
         return self.options["resolution"]
+
     def interpolation_flags(self) -> int:
         return self.options["interpolation_flags"]
