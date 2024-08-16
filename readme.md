@@ -1,12 +1,12 @@
 # Road Tile Generator
 
-平面画像からSimutransの道路アドオン用画像を線形変換して生成するツールです。
+テクスチャ画像から線形変換を利用してSimutransの道路アドオン用タイル画像を生成するツールです。
 
-![平面画像からの変換イメージ](./refs/thumb.png)
+![テクスチャ画像からの変換イメージ](./refs/thumb.png)
 
 # 導入 / Installation
 
-事前にpythonのインストールが必要です。
+事前にpython（3.12以上）のインストールが必要です。
 
 ```
 pip install -r requirements.txt
@@ -25,6 +25,14 @@ python .\main.py .\demo\demo.yml
 3. 別ツールで128px四方にトリミング、特殊色削除
 4. makeobjでpak作成
 
+## 用語
+
+- テクスチャ画像
+    線形変換前の正方形の画像のこと
+- タイル画像
+    Simutrans用の角度に線形変換された画像のこと
+
+
 ## パラメーター
 
 主な設定は [demo.yml](./demo/demo.yml) を確認してください。
@@ -34,7 +42,9 @@ python .\main.py .\demo\demo.yml
 このアプリのメジャーバージョンです。バージョンが変わるとyamlファイルの互換性がなくなります。
 
 ### options.interpolation_flags
-変換時の補完モード
+
+変換時の補完モード。cv::InterpolationFlagsで定義されている値を指定できます。
+https://docs.opencv.org/4.10.0/da/d54/group__imgproc__transform.html
 
 ### options.resolution
 
