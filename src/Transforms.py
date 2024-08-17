@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
 
 SGL = 0.25
 DBL = SGL * 2
@@ -7,6 +8,17 @@ HLF = SGL / 2
 
 
 class ImageManipulation:
+    @staticmethod
+    def dump(image):
+        plt.figure(facecolor="black")
+        plt.grid(True, color="white", linewidth=0.5)
+        plt.gca().set_xticks(np.arange(0, image.shape[1], 16))
+        plt.gca().set_yticks(np.arange(0, image.shape[0], 16))
+        plt.gca().tick_params(length=0)  # グリッドの目盛りを消す
+        plt.gca().set_aspect("equal")  # 正方形グリッドを維持
+        plt.imshow(image)
+        plt.show()
+
     @staticmethod
     def empty_image(wh: tuple[int, int]) -> cv2.typing.MatLike:
         (w, h) = wh
@@ -31,7 +43,7 @@ class ImageManipulation:
 
     @staticmethod
     def load_image(path: str):
-        image = cv2.imread(path)
+        image = cv2.imread(path, cv2.IMREAD_UNCHANGED)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2BGRA)
 
         return image

@@ -33,7 +33,9 @@ class SimuTransformer:
                 if source_size is None:
                     raise Errors.MissingParamError(f"files.{fi}.rules.{ri}.source.size")
 
-                image = im.crop(original, rule.source_location(source_size), source_size)
+                image = im.crop(
+                    original, rule.source_location(source_size), source_size
+                )
 
                 resolution = self.ruleset.resolution()
                 if resolution != 1:
@@ -49,8 +51,11 @@ class SimuTransformer:
 
                 image = im.apply(image, affine, dest_size, resolution)
                 if resolution != 1:
-                    image = im.shrink(image, resolution, self.ruleset.interpolation_flags())
+                    image = im.shrink(
+                        image, resolution, self.ruleset.interpolation_flags()
+                    )
 
                 result = im.paste(result, image, rule.dest_location(dest_size))
 
+            # im.dump(image)
             im.save_image(result, self.ruleset.resolve_path(file.dest_path()))
