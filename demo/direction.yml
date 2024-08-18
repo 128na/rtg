@@ -1,0 +1,48 @@
+---
+title: サンプル
+description: サンプル
+rtg_version: 0
+options:
+  # 変換時の補完モード
+  interpolation_flags: 2
+  # 線形変換時の拡大倍率
+  resolution: 2
+files:
+  - name: "方向サンプル"
+    source:
+      path: "direction.png"
+      default_size: 256
+    dest:
+      path: "direction_output.png"
+      width: 1024
+      height: 256
+      default_size: 256
+    rules:
+      - name: s
+        source:
+          location: "0.0"
+        dest:
+          location: "0.0"
+        converts:
+          - to_s
+      - name: w
+        source:
+          location: "0.0"
+        dest:
+          location: "0.1"
+        converts:
+          - to_w
+      - name: n
+        source:
+          location: "0.0"
+        dest:
+          location: "0.2"
+        converts:
+          - to_n
+      - name: e
+        source:
+          location: "0.0"
+        dest:
+          location: "0.3"
+        converts:
+          - to_e

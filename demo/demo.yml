@@ -13,7 +13,7 @@ files:
       path: "demo.png"
       default_size: 512
     dest:
-      path: "output.png"
+      path: "demo_output.png"
       width: 1024
       height: 2048
       default_size: 256
