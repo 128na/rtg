@@ -36,7 +36,7 @@ class Rule:
     converts: list[Convert]
 
     def __init__(self, rule):
-        self.name = rule["name"]
+        self.name = rule.get("name", "")
         self.source = rule["source"]
         self.dest = rule["dest"]
         self.converts = list(map(lambda c: Convert(c), rule["converts"]))
@@ -59,6 +59,18 @@ class Rule:
 
         return (int(x) * size, int(y) * size)
 
+    def dest_offset(self) -> tuple[int, int]:
+        return (
+            self.dest.get("offset", {}).get("x", 0),
+            self.dest.get("offset", {}).get("y", 0),
+        )
+
+    def source_offset(self) -> tuple[int, int]:
+        return (
+            self.source.get("offset", {}).get("x", 0),
+            self.source.get("offset", {}).get("y", 0),
+        )
+
 
 class File:
     name: str
@@ -67,7 +79,7 @@ class File:
     rules: list[Rule]
 
     def __init__(self, file):
-        self.name = file["name"]
+        self.name = file.get("name", "")
         self.source = file["source"]
         self.dest = file["dest"]
         self.rules = list(map(lambda r: Rule(r), file["rules"]))
@@ -82,12 +94,10 @@ class File:
         return self.dest["path"]
 
     def source_default_size(self) -> int | None:
-        if "default_size" in self.source:
-            return self.source["default_size"]
+        return self.source.get("default_size")
 
     def dest_default_size(self) -> int | None:
-        if "default_size" in self.dest:
-            return self.dest["default_size"]
+        return self.dest.get("default_size")
 
 
 class Ruleset:

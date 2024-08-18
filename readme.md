@@ -35,18 +35,18 @@ python .\main.py .\demo\demo.yml
 
 ## パラメーター
 
-主な設定は [demo.yml](./demo/demo.yml) を確認してください。
+設定例は [demo.yml](./demo/demo.yml) を確認してください。
 
-### rtg_version
+### `rtg_version`
 
 このアプリのメジャーバージョンです。バージョンが変わるとyamlファイルの互換性がなくなります。
 
-### options.interpolation_flags
+### `options.interpolation_flags`
 
 変換時の補完モード。cv::InterpolationFlagsで定義されている値を指定できます。
 https://docs.opencv.org/4.10.0/da/d54/group__imgproc__transform.html
 
-### options.resolution
+### `options.resolution`
 
 1以上を設定すると線形変換前に画像を指定倍率拡大、返還後に縮小して処理します。
 アンチエイリアスの効き方が変わるので好みに合わせて設定してください。
@@ -58,18 +58,27 @@ resolution=2
 resolution=4
 ![resolution=4での変換イメージ](./refs/r4.png)
 
-### *.location
+### `files`
+
+出力ファイルごとの設定です。
+
+
+### `files.rules.*.location`
 
 画像の位置を指定します。datでの指定と同じです。
 
 例） size=64, location=1,2の場合、(y,x) = (64,128)を始点に(w,h) = (64, 64)の領域となります
 
-### files.rules.source.size, files.rules.dest.size
+### `files.rules.*.size`
 
 各画像の入出力サイズです。
-未指定のときはデフォルト値(`files.souce.default_size`, `files.dest.default_size`)が使用されます。
+未指定のときはデフォルト値(`files.*.default_size`)が使用されます。
 
-### *.converts
+### `files.rules.*.offset.x`, `files.rules.*.offset.y`
 
-画像の線形変換方法を指定します
+入出力画像のオフセット位置です。未指定のときは0になります
+
+### `*.converts`
+
+画像の線形変換方法を指定します。
 使用可能な変換は [Transformsクラス](./src/Transforms.py) を確認してください。

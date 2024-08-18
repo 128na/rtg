@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+from PIL import Image
 
 SGL = 0.25
 DBL = SGL * 2
@@ -36,10 +37,11 @@ class ImageManipulation:
 
     @staticmethod
     def crop(
-        image: cv2.typing.MatLike, xy: tuple[int, int], size: int
+        image: cv2.typing.MatLike, xy: tuple[int, int], size: int, dxdy: tuple[int, int]
     ) -> cv2.typing.MatLike:
         (x, y) = xy
-        return image[y : y + size, x : x + size]
+        (dx, dy) = dxdy
+        return image[y + dy : y + dy + size, x + dx : x + dx + size]
 
     @staticmethod
     def load_image(path: str):
@@ -80,11 +82,52 @@ class ImageManipulation:
 
     @staticmethod
     def paste(
-        base: cv2.typing.MatLike, overlay: cv2.typing.MatLike, xy: tuple[int, int]
+        base: cv2.typing.MatLike,
+        overlay: cv2.typing.MatLike,
+        xy: tuple[int, int],
+        dxdy: tuple[int, int],
     ):
         (x, y) = xy
+        (dx, dy) = dxdy
+
+        # 背景画像の指定された場所を切り出す
         h, w = overlay.shape[:2]
-        base[y : y + h, x : x + w] = overlay[:h, :w]
+        roi = base[y + dy : y + dy + h, x + dx : x + dx + w]
+
+        # 背景画像と重ねる画像の各チャンネルを分離する
+        overlay_rgb = overlay[:, :, :3]  # 重ねる画像のRGB
+        overlay_alpha = overlay[:, :, 3]  # 重ねる画像のαチャンネル
+
+        base_rgb = roi[:, :, :3]  # 背景画像の該当領域のRGB
+        base_alpha = roi[:, :, 3]  # 背景画像の該当領域のαチャンネル
+
+        # αチャンネルを0〜1の範囲に正規化
+        alpha_overlay = overlay_alpha.astype(float) / 255.0
+        alpha_base = base_alpha.astype(float) / 255.0
+
+        # アルファブレンドの計算
+        blended_rgb = (
+            alpha_overlay[..., None] * overlay_rgb
+            + (1 - alpha_overlay[..., None]) * base_rgb
+        ).astype(np.uint8)
+
+        # アルファチャンネルのブレンド
+        blended_alpha = (alpha_overlay + alpha_base * (1 - alpha_overlay)) * 255
+        blended_alpha = blended_alpha.astype(np.uint8)
+
+        # 最終的な合成画像を作成
+        result = cv2.merge(
+            (
+                blended_rgb[:, :, 0],
+                blended_rgb[:, :, 1],
+                blended_rgb[:, :, 2],
+                blended_alpha,
+            )
+        )
+
+        # 合成した部分を背景画像に戻す
+        base[y + dy : y + dy + h, x + dx : x + dx + w] = result
+
         return base
 
 
