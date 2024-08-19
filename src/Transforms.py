@@ -105,10 +105,12 @@ class ImageManipulation:
         alpha_overlay = overlay_alpha.astype(float) / 255.0
         alpha_base = base_alpha.astype(float) / 255.0
 
-        # アルファブレンドの計算
-        blended_rgb = (
+        # ベース画像が透明 (alpha_base == 0) の場合、overlay_rgbをそのまま使用する
+        blended_rgb = np.where(
+            alpha_base[..., None] == 0,
+            overlay_rgb,
             alpha_overlay[..., None] * overlay_rgb
-            + (1 - alpha_overlay[..., None]) * base_rgb
+            + (1 - alpha_overlay[..., None]) * base_rgb,
         ).astype(np.uint8)
 
         # アルファチャンネルのブレンド
