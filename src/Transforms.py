@@ -133,6 +133,46 @@ class ImageManipulation:
         return base
 
 
+class ImageEdit:
+    def shift(image, args: list):
+        # 画像がアルファチャンネルを持っているか確認
+        if image.shape[2] == 4:
+            # BGRとアルファチャンネルを分離
+            bgr = image[:, :, :3]  # BGRチャンネル
+            alpha = image[:, :, 3]  # アルファチャンネル
+        else:
+            bgr = image
+            alpha = None  # アルファチャンネルがない場合
+
+        # BGRからHSVに変換
+        hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
+
+        # HSVチャンネルを分離
+        h, s, v = cv2.split(hsv)
+
+        hue_shift = args[0]
+
+        # OpenCVのHチャンネルは0〜179の範囲なので、360に対応させる
+        # Hチャンネルを0〜360に拡張して計算
+        h = (h.astype(np.int32) * 2 + hue_shift) % 360
+
+        # 360度の色相を再度0〜179の範囲にマッピング
+        h = (h // 2).astype(np.uint8)
+
+        # チャンネルを再結合
+        shifted_hsv = cv2.merge([h, s, v])
+
+        # HSVからBGRに変換
+        shifted_bgr = cv2.cvtColor(shifted_hsv, cv2.COLOR_HSV2BGR)
+
+        # アルファチャンネルがある場合、BGRと再結合
+        if alpha is not None:
+            # アルファチャンネルとBGRを結合して出力画像を作成
+            return cv2.merge([shifted_bgr, alpha])
+        else:
+            return shifted_bgr
+
+
 class Transforms:
     """
     線形変換行列定義クラス

@@ -25,6 +25,8 @@ class SimuTransformer:
 
             original = im.load_image(self.ruleset.resolve_path(file.source_path()))
             result = im.empty_image(file.dest_size())
+            for edit in file.before_apply:
+                result = edit.apply(result)
 
             for ri, rule in enumerate(file.rules):
                 self.dump(rule=rule.__dict__)
@@ -62,5 +64,7 @@ class SimuTransformer:
                     result, image, rule.dest_location(dest_size), rule.dest_offset()
                 )
 
+            for edit in file.after_apply:
+                result = edit.apply(result)
             # im.dump(image)
             im.save_image(result, self.ruleset.resolve_path(file.dest_path()))

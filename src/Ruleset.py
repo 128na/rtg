@@ -3,6 +3,7 @@ from src import Errors
 import os
 import cv2
 from src.Transforms import Transforms as tf
+from src.Transforms import ImageEdit as ie
 
 RTG_VERSION = 0
 
@@ -72,17 +73,43 @@ class Rule:
         )
 
 
+class Edit:
+    name: str
+    args: list | None
+
+    def __init__(self, edit):
+        if isinstance(edit, str):
+            self.name = edit
+            self.args = None
+        else:
+            self.name, *self.args = edit
+
+    def apply(self, image: cv2.typing.MatLike) -> cv2.typing.MatLike:
+        if hasattr(ie, self.name):
+            method = getattr(ie, self.name)
+            if self.args:
+                return method(image, self.args)
+            return method(image)
+
+        else:
+            raise Errors.EditKeyError(self.name)
+
+
 class File:
     name: str
     source: dict
     dest: dict
     rules: list[Rule]
+    before_apply: list[Edit]
+    after_apply: list[Edit]
 
     def __init__(self, file):
         self.name = file.get("name", "")
         self.source = file["source"]
         self.dest = file["dest"]
         self.rules = list(map(lambda r: Rule(r), file["rules"]))
+        self.before_apply = list(map(lambda m: Edit(m), file.get("before_apply", [])))
+        self.after_apply = list(map(lambda m: Edit(m), file.get("after_apply", [])))
 
     def dest_size(self) -> tuple[int, int]:
         return (self.dest["width"], self.dest["height"])
