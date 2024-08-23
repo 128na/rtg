@@ -1,7 +1,7 @@
 ---
 title: サンプル
 description: サンプル
-rtg_version: 0
+rtg_version: 1
 options:
   # 変換時の補完モード
   interpolation_flags: 2
@@ -169,7 +169,7 @@ files:
           location: "6.0"
         converts:
           - to_n
-          - to_up2
+          - [to_up, 2]
       - name: up2_9
         source:
           location: "2.1"
@@ -177,7 +177,7 @@ files:
           location: "6.1"
         converts:
           - to_w
-          - to_up2
+          - [to_up, 2]
       - name: up2_3
         source:
           location: "2.1"
@@ -185,7 +185,7 @@ files:
           location: "6.2"
         converts:
           - to_s
-          - to_up2
+          - [to_up, 2]
       - name: up2_6
         source:
           location: "2.1"
@@ -193,7 +193,7 @@ files:
           location: "6.3"
         converts:
           - to_e
-          - to_up2
+          - [to_up, 2]
       - name: d_sw
         source:
           location: "2.0"

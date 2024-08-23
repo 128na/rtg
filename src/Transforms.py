@@ -270,27 +270,15 @@ class Transforms:
         )
 
     @staticmethod
-    def to_up2():
-        """
-        テクスチャの右を緩坂2段分上げる
-        """
-        return np.array(
-            [
-                [0, 0, 0],
-                [0, SGL, -SGL],
-            ],
-            np.float32,
-        )
-
-    @staticmethod
-    def to_up():
+    def to_up(args: list[int] = []):
         """
         テクスチャの右を緩坂1段分上げる
         """
+        height = args[0] if len(args) > 0 else 1
         return np.array(
             [
                 [0, 0, 0],
-                [0, HLF, -HLF],
+                [0, HLF * height, -HLF * height],
             ],
             np.float32,
         )

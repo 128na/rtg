@@ -5,7 +5,7 @@ import cv2
 from src.Transforms import Transforms as tf
 from src.Transforms import ImageEdit as ie
 
-RTG_VERSION = 0
+RTG_VERSION = 1
 
 
 class Convert:
@@ -143,7 +143,7 @@ class Ruleset:
                 self.data = yaml.safe_load(file)
 
                 if self.data["rtg_version"] != RTG_VERSION:
-                    raise Errors.RTGVersionErrorRTG(RTG_VERSION)
+                    raise Errors.RTGVersionError(RTG_VERSION)
 
                 self.files = list(map(lambda f: File(f), self.data["files"]))
                 self.options = self.data["options"]

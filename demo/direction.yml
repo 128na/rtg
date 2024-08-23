@@ -1,7 +1,7 @@
 ---
 title: サンプル
 description: サンプル
-rtg_version: 0
+rtg_version: 1
 options:
   # 変換時の補完モード
   interpolation_flags: 2
