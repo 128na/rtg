@@ -19,9 +19,10 @@ class SimuTransformer:
                 print(kwargs)
 
     def transform(self):
+        self.dump("--------------------")
+        self.dump(yaml_path=self.ruleset.yaml_path)
         for fi, file in enumerate(self.ruleset.files):
-            self.dump("--------------------")
-            self.dump(file.__dict__)
+            self.dump(file=file.__dict__)
 
             original = im.load_image(self.ruleset.resolve_path(file.source_path()))
             result = im.empty_image(file.dest_size())
