@@ -6,10 +6,8 @@ from src import SimuTransformer
 from src import Ruleset
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="指定されたJSONファイルを読み込むスクリプト"
-    )
-    parser.add_argument("file_name", help="JSONファイルのパス")
+    parser = argparse.ArgumentParser(description="Road Tile Generator")
+    parser.add_argument("file_path", help="path to .yaml")
     parser.add_argument(
         "--debug",
         action="store_true",
@@ -18,7 +16,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    files = glob.glob(args.file_name)
+    files = glob.glob(args.file_path)
 
     # 一致したファイルを1つずつ開く
     for file in files:

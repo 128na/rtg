@@ -15,7 +15,10 @@ pip install -r requirements.txt
 # 使い方 / Usage
 
 ```
+# 指定yamlファイルの変換を実行
 python .\main.py .\demo\demo.yml
+# 指定ディレクトリ内にあるすべてのyamlファイルの変換を実行
+python .\main.py .\demo\
 ```
 変換の都合上、タイル外周部分はアンチエイリアスがかかり透過色との相性が悪いです。
 使用するpakサイズよりも一回り大きめで出力し、別ツール([simutrans-image-merger](https://github.com/128na/simutrans-image-merger)など)の併用をお勧めします。
