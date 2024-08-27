@@ -1,0 +1,664 @@
+title: "路面舗装"
+description: "路面舗装全般"
+rtg_version: 1
+options:
+  interpolation_flags: 3
+  resolution: 4
+files:
+  - name: "fill"
+    source:
+      path: "texture.png"
+      default_size: 512
+    dest:
+      path: "texture1_output.png"
+      width: 2560
+      height: 1536
+      default_size: 256
+    before_apply:
+    after_apply:
+      - [merge, base.png]
+      - [removeTransparent]
+      - [removeSpecial]
+    rules:
+      - name: "ns"
+        source:
+          location: "1.4"
+        dest:
+          location: "0.2"
+        converts:
+          - to_n
+      - name: "ew"
+        source:
+          location: "1.4"
+        dest:
+          location: "0.3"
+        converts:
+          - to_e
+      - name: "s"
+        source:
+          location: "1.4"
+        dest:
+          location: "0.5"
+        converts:
+          - to_n
+      - name: "w"
+        source:
+          location: "1.4"
+        dest:
+          location: "0.6"
+        converts:
+          - to_e
+      - name: "n"
+        source:
+          location: "1.4"
+        dest:
+          location: "0.7"
+        converts:
+          - to_s
+      - name: "e"
+        source:
+          location: "1.4"
+        dest:
+          location: "0.8"
+        converts:
+          - to_w
+      - name: "-"
+        source:
+          location: "1.4"
+        dest:
+          location: "0.9"
+        converts:
+          - to_n
+      - name: "up_12"
+        source:
+          location: "2.4"
+        dest:
+          location: "1.0"
+        converts:
+          - to_n
+          - to_up
+      - name: "up_9"
+        source:
+          location: "2.4"
+        dest:
+          location: "1.1"
+        converts:
+          - to_w
+          - to_up
+      - name: "up_3"
+        source:
+          location: "3.4"
+        dest:
+          location: "1.2"
+        converts:
+          - to_s
+          - to_up
+      - name: "up_6"
+        source:
+          location: "3.4"
+        dest:
+          location: "1.3"
+        converts:
+          - to_e
+          - to_up
+      - name: "up2_12"
+        source:
+          location: "2.4"
+        dest:
+          location: "1.5"
+        converts:
+          - to_n
+          - [to_up, 2]
+      - name: "up2_9"
+        source:
+          location: "2.4"
+        dest:
+          location: "1.6"
+        converts:
+          - to_w
+          - [to_up, 2]
+      - name: "up2_3"
+        source:
+          location: "3.4"
+        dest:
+          location: "1.7"
+        converts:
+          - to_s
+          - [to_up, 2]
+      - name: "up2_6"
+        source:
+          location: "3.4"
+        dest:
+          location: "1.8"
+        converts:
+          - to_e
+          - [to_up, 2]
+      - name: "d_sw"
+        source:
+          location: "1.4"
+        dest:
+          location: "2.0"
+        converts:
+          - to_e
+      - name: "d_nw"
+        source:
+          location: "1.4"
+        dest:
+          location: "2.1"
+        converts:
+          - to_s
+      - name: "d_ne"
+        source:
+          location: "1.4"
+        dest:
+          location: "2.2"
+        converts:
+          - to_w
+      - name: "d_se"
+        source:
+          location: "1.4"
+        dest:
+          location: "2.3"
+        converts:
+          - to_n
+      - name: "sw"
+        source:
+          location: "1.4"
+        dest:
+          location: "2.5"
+        converts:
+          - to_e
+      - name: "nw"
+        source:
+          location: "1.4"
+        dest:
+          location: "2.6"
+        converts:
+          - to_s
+      - name: "ne"
+        source:
+          location: "1.4"
+        dest:
+          location: "2.7"
+        converts:
+          - to_w
+      - name: "se"
+        source:
+          location: "1.4"
+        dest:
+          location: "2.8"
+        converts:
+          - to_n
+      - name: "new"
+        source:
+          location: "1.4"
+        dest:
+          location: "4.0"
+        converts:
+          - to_e
+      - name: "nse"
+        source:
+          location: "1.4"
+        dest:
+          location: "4.1"
+        converts:
+          - to_s
+      - name: "sew"
+        source:
+          location: "1.4"
+        dest:
+          location: "4.2"
+        converts:
+          - to_w
+      - name: "nsw"
+        source:
+          location: "1.4"
+        dest:
+          location: "4.3"
+        converts:
+          - to_n
+      - name: "nsew"
+        source:
+          location: "1.4"
+        dest:
+          location: "4.4"
+        converts:
+          - to_n
+  - name: "front"
+    source:
+      path: "texture.png"
+      default_size: 512
+    dest:
+      path: "texture2_output.png"
+      width: 2560
+      height: 1536
+      default_size: 256
+    before_apply:
+    after_apply:
+      - [merge, base.png]
+      - [removeTransparent]
+      - [removeSpecial]
+    rules:
+      - name: "ns_f"
+        source:
+          location: "1.3"
+        dest:
+          location: "0.2"
+        converts:
+          - to_n
+      - name: "ew_f"
+        source:
+          location: "1.3"
+        dest:
+          location: "0.3"
+        converts:
+          - to_e
+      - name: "s"
+        source:
+          location: "0.3"
+        dest:
+          location: "0.5"
+        converts:
+          - to_n
+      - name: "w"
+        source:
+          location: "0.3"
+        dest:
+          location: "0.6"
+        converts:
+          - to_e
+      - name: "n"
+        source:
+          location: "0.2"
+        dest:
+          location: "0.7"
+        converts:
+          - to_s
+      - name: "e"
+        source:
+          location: "0.2"
+        dest:
+          location: "0.8"
+        converts:
+          - to_w
+      - name: "-"
+        source:
+          location: "1.4"
+        dest:
+          location: "0.9"
+        converts:
+          - to_n
+      - name: "up_12_f"
+        source:
+          location: "3.3"
+        dest:
+          location: "1.0"
+        converts:
+          - to_n
+          - to_up
+      - name: "up_9_f"
+        source:
+          location: "3.2"
+        dest:
+          location: "1.1"
+        converts:
+          - to_w
+          - to_up
+      - name: "up_3_f"
+        source:
+          location: "2.2"
+        dest:
+          location: "1.2"
+        converts:
+          - to_s
+          - to_up
+      - name: "up_6_f"
+        source:
+          location: "2.3"
+        dest:
+          location: "1.3"
+        converts:
+          - to_e
+          - to_up
+      - name: "up2_12_f"
+        source:
+          location: "3.3"
+        dest:
+          location: "1.5"
+        converts:
+          - to_n
+          - [to_up, 2]
+      - name: "up2_9_f"
+        source:
+          location: "3.2"
+        dest:
+          location: "1.6"
+        converts:
+          - to_w
+          - [to_up, 2]
+      - name: "up2_3_f"
+        source:
+          location: "2.2"
+        dest:
+          location: "1.7"
+        converts:
+          - to_s
+          - [to_up, 2]
+      - name: "up2_6_f"
+        source:
+          location: "2.3"
+        dest:
+          location: "1.8"
+        converts:
+          - to_e
+          - [to_up, 2]
+      - name: "d_sw_f"
+        source:
+          location: "3.0"
+        dest:
+          location: "2.0"
+        converts:
+          - to_e
+      - name: "d_nw_f"
+        source:
+          location: "3.0"
+        dest:
+          location: "2.1"
+        converts:
+          - to_s
+      - name: "d_ne_f"
+        source:
+          location: "3.1"
+        dest:
+          location: "2.2"
+        converts:
+          - to_w
+      - name: "d_se_f"
+        source:
+          location: "3.1"
+        dest:
+          location: "2.3"
+        converts:
+          - to_n
+      - name: "sw_f"
+        source:
+          location: "2.0"
+        dest:
+          location: "2.5"
+        converts:
+          - to_e
+      - name: "nw_f"
+        source:
+          location: "2.0"
+        dest:
+          location: "2.6"
+        converts:
+          - to_s
+      - name: "ne_f"
+        source:
+          location: "2.1"
+        dest:
+          location: "2.7"
+        converts:
+          - to_w
+      - name: "se_f"
+        source:
+          location: "2.1"
+        dest:
+          location: "2.8"
+        converts:
+          - to_n
+      - name: "new_f"
+        source:
+          location: "1.3"
+        dest:
+          location: "4.0"
+        converts:
+          - to_e
+      - name: "nse_f"
+        source:
+          location: "1.0"
+        dest:
+          location: "4.1"
+        converts:
+          - to_s
+      - name: "sew_f"
+        source:
+          location: "1.0"
+        dest:
+          location: "4.2"
+        converts:
+          - to_w
+      - name: "nsw_f"
+        source:
+          location: "1.3"
+        dest:
+          location: "4.3"
+        converts:
+          - to_n
+      - name: "nsew_f"
+        source:
+          location: "1.1"
+        dest:
+          location: "4.4"
+        converts:
+          - to_n
+  - name: "back"
+    source:
+      path: "texture.png"
+      default_size: 512
+    dest:
+      path: "texture3_output.png"
+      width: 2560
+      height: 1536
+      default_size: 256
+    before_apply:
+    after_apply:
+      - [merge, base.png]
+      - [removeTransparent]
+      - [removeSpecial]
+    rules:
+      - name: "ns_b"
+        source:
+          location: "1.2"
+        dest:
+          location: "0.2"
+        converts:
+          - to_n
+      - name: "ew_b"
+        source:
+          location: "1.2"
+        dest:
+          location: "0.3"
+        converts:
+          - to_e
+      - name: "s"
+        source:
+          location: "0.2"
+        dest:
+          location: "0.5"
+        converts:
+          - to_n
+      - name: "w"
+        source:
+          location: "0.2"
+        dest:
+          location: "0.6"
+        converts:
+          - to_e
+      - name: "n"
+        source:
+          location: "0.3"
+        dest:
+          location: "0.7"
+        converts:
+          - to_s
+      - name: "e"
+        source:
+          location: "0.3"
+        dest:
+          location: "0.8"
+        converts:
+          - to_w
+      - name: "-"
+        source:
+          location: "1.4"
+        dest:
+          location: "0.9"
+        converts:
+          - to_n
+      - name: "up_12_b"
+        source:
+          location: "3.2"
+        dest:
+          location: "1.0"
+        converts:
+          - to_n
+          - to_up
+      - name: "up_9_b"
+        source:
+          location: "3.3"
+        dest:
+          location: "1.1"
+        converts:
+          - to_w
+          - to_up
+      - name: "up_3_b"
+        source:
+          location: "2.3"
+        dest:
+          location: "1.2"
+        converts:
+          - to_s
+          - to_up
+      - name: "up_6_b"
+        source:
+          location: "2.2"
+        dest:
+          location: "1.3"
+        converts:
+          - to_e
+          - to_up
+      - name: "up2_12_b"
+        source:
+          location: "3.2"
+        dest:
+          location: "1.5"
+        converts:
+          - to_n
+          - [to_up, 2]
+      - name: "up2_9_b"
+        source:
+          location: "3.3"
+        dest:
+          location: "1.6"
+        converts:
+          - to_w
+          - [to_up, 2]
+      - name: "up2_3_b"
+        source:
+          location: "2.3"
+        dest:
+          location: "1.7"
+        converts:
+          - to_s
+          - [to_up, 2]
+      - name: "up2_6_b"
+        source:
+          location: "2.2"
+        dest:
+          location: "1.8"
+        converts:
+          - to_e
+          - [to_up, 2]
+      - name: "d_sw_b"
+        source:
+          location: "3.1"
+        dest:
+          location: "2.0"
+        converts:
+          - to_e
+      - name: "d_nw_b"
+        source:
+          location: "3.1"
+        dest:
+          location: "2.1"
+        converts:
+          - to_s
+      - name: "d_ne_b"
+        source:
+          location: "3.0"
+        dest:
+          location: "2.2"
+        converts:
+          - to_w
+      - name: "d_se_b"
+        source:
+          location: "3.0"
+        dest:
+          location: "2.3"
+        converts:
+          - to_n
+      - name: "sw_b"
+        source:
+          location: "2.1"
+        dest:
+          location: "2.5"
+        converts:
+          - to_e
+      - name: "nw_b"
+        source:
+          location: "2.1"
+        dest:
+          location: "2.6"
+        converts:
+          - to_s
+      - name: "ne_b"
+        source:
+          location: "2.0"
+        dest:
+          location: "2.7"
+        converts:
+          - to_w
+      - name: "se_b"
+        source:
+          location: "2.0"
+        dest:
+          location: "2.8"
+        converts:
+          - to_n
+      - name: "new_b"
+        source:
+          location: "1.0"
+        dest:
+          location: "4.0"
+        converts:
+          - to_e
+      - name: "nse_b"
+        source:
+          location: "1.3"
+        dest:
+          location: "4.1"
+        converts:
+          - to_s
+      - name: "sew_b"
+        source:
+          location: "1.3"
+        dest:
+          location: "4.2"
+        converts:
+          - to_w
+      - name: "nsw_b"
+        source:
+          location: "1.0"
+        dest:
+          location: "4.3"
+        converts:
+          - to_n
+      - name: "nsew_b"
+        source:
+          location: "1.0"
+        dest:
+          location: "4.4"
+        converts:
+          - to_n
