@@ -191,14 +191,11 @@ class ImageEdit:
         threshold = args[0] if len(args) > 0 else 128
 
         alpha_channel = image[:, :, 3]
-        mask_above_threshold = alpha_channel >= threshold
         mask_below_threshold = alpha_channel < threshold
-
-        # 閾値以上の透明度を不透明にする
-        image[mask_above_threshold, 3] = 255
 
         # 閾値未満の透明度を透過色にする
         image[mask_below_threshold] = specified_color
+        image[:, :, 3] = 255
 
         return image
 
