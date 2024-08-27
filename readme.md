@@ -40,9 +40,64 @@ python .\main.py .\demo\
 
 設定例は [demo.yml](./demo/demo.yml) を確認してください。
 
-### `rtg_version`
+```yml
+title: "demo"
+# [任意] この定義全体の名前。--debug有効時に表示されます
+description: "demo"
+# [任意] この定義全体の説明。--debug有効時に表示されます
+rtg_version: 1
+# [必須] このアプリのメジャーバージョンです。バージョンが変わるとyamlファイルの互換性がなくなります。
+options:
+  interpolation_flags: 3    
+  # [必須] 変換時の補完モード。後述
+  resolution: 2             
+  # [必須] 線形変換時の拡大倍率。後述
+before_apply:               
+# [任意] 入力画像に対してrules適用の前に実行する処理を指定します。後述
+after_apply:                
+# [任意] 出力画像に対してrules適用の後に実行する処理を指定します。後述
+files:
+  - name: "sample1"             
+  # [必須] ファイルごとの名前。--debug有効時に表示されます
+    source:
+      path: "path/to/in.png"    
+      # [必須] 入力画像のこのymlファイルを起点とした相対パス
+      default_size: 512         
+      # [任意] 入力画像のグリッドサイズデフォルト値(px)
+    dest:
+      path: "path/to/out.png"   
+      # [必須] 出力画像のこのymlファイルを起点とした相対パス
+      width: 1024               
+      # [必須] 出力画像の幅(px)
+      height: 512               
+      # [必須] 出力画像の高さ(px)
+      default_size: 256         
+      # [任意] 出力画像のグリッドサイズデフォルト値(px)
+    rules:
+      - name: s                 
+      # [必須] 変換ルールごとの名前。--debug有効時に表示されます
+        source:                 
+          location: "0.1"       
+          # [必須] 入力画像のどの範囲を変換するかを指定します。datでの指定と同じです。
+          size: 256             
+          # [任意] 入力画像のグリッドサイズを指定します(px)未指定の場合デフォルト値が使用されます。
+          offset:               
+          # [任意] 入力画像のグリッド指定時のオフセット座標を指定できます
+            x: 0                
+            y: 0                
+        dest:                   
+          location: "1.0"       
+          # [必須] 変換した画像を出力画像のどの場所に貼り付けるかを指定します。datでの指定と同じです。
+          size: 256             
+          # [任意] 出力画像のグリッドサイズを指定します(px)未指定の場合デフォルト値が使用されます。
+          offset:               
+          # [任意] 出力画像のグリッド指定時のオフセット座標を指定できます
+            x: 0                
+            y: 0                
+        converts:               
+        # [必須] 変換処理を指定します。後述
+```
 
-このアプリのメジャーバージョンです。バージョンが変わるとyamlファイルの互換性がなくなります。
 
 ### `options.interpolation_flags`
 
@@ -61,25 +116,16 @@ resolution=2
 resolution=4
 ![resolution=4での変換イメージ](./refs/r4.png)
 
-### `files`
+### `before_apply`, `after_apply`
 
-出力ファイルごとの設定です。
+画像の編集操作を指定します。
+使用可能な編集操作は [ImageEditクラス](./src/Transforms.py) を確認してください。
 
-
-### `files.rules.*.location`
+### `*.location`
 
 画像の位置を指定します。datでの指定と同じです。
 
 例） size=64, location=1,2の場合、(y,x) = (64,128)を始点に(w,h) = (64, 64)の領域となります
-
-### `files.rules.*.size`
-
-各画像の入出力サイズです。
-未指定のときはデフォルト値(`files.*.default_size`)が使用されます。
-
-### `files.rules.*.offset.x`, `files.rules.*.offset.y`
-
-入出力画像のオフセット位置です。未指定のときは0になります
 
 ### `*.converts`
 
