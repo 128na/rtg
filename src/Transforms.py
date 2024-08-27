@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-from PIL import Image
+from src import Ruleset
 
 SGL = 0.25
 DBL = SGL * 2
@@ -134,7 +134,7 @@ class ImageManipulation:
 
 
 class ImageEdit:
-    def shift(image, args: list):
+    def shift(image, ruleset: Ruleset, args: list):
         # 画像がアルファチャンネルを持っているか確認
         if image.shape[2] == 4:
             # BGRとアルファチャンネルを分離
@@ -171,6 +171,14 @@ class ImageEdit:
             return cv2.merge([shifted_bgr, alpha])
         else:
             return shifted_bgr
+
+    def merge(image, ruleset: Ruleset, args: list):
+        path = args[0]
+        xy = (args[1] if len(args) > 1 else 0, args[2] if len(args) > 2 else 0)
+        dxdy = (args[3] if len(args) > 3 else 0, args[4] if len(args) > 4 else 0)
+        overlay = ImageManipulation.load_image(ruleset.resolve_path(path))
+
+        return ImageManipulation.paste(image, overlay, xy, dxdy)
 
 
 class Transforms:

@@ -84,12 +84,14 @@ class Edit:
         else:
             self.name, *self.args = edit
 
-    def apply(self, image: cv2.typing.MatLike) -> cv2.typing.MatLike:
+    def apply(
+        self, image: cv2.typing.MatLike, ruleset: "Ruleset"
+    ) -> cv2.typing.MatLike:
         if hasattr(ie, self.name):
             method = getattr(ie, self.name)
             if self.args:
-                return method(image, self.args)
-            return method(image)
+                return method(image, ruleset, self.args)
+            return method(image, ruleset)
 
         else:
             raise Errors.EditKeyError(self.name)
