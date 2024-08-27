@@ -110,8 +110,12 @@ class File:
         self.source = file["source"]
         self.dest = file["dest"]
         self.rules = list(map(lambda r: Rule(r), file["rules"]))
-        self.before_apply = list(map(lambda m: Edit(m), file.get("before_apply", [])))
-        self.after_apply = list(map(lambda m: Edit(m), file.get("after_apply", [])))
+        self.before_apply = list(
+            map(lambda m: Edit(m), file.get("before_apply", []) or [])
+        )
+        self.after_apply = list(
+            map(lambda m: Edit(m), file.get("after_apply", []) or [])
+        )
 
     def dest_size(self) -> tuple[int, int]:
         return (self.dest["width"], self.dest["height"])
