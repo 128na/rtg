@@ -1,6 +1,7 @@
 from src import Ruleset
 from src.Transforms import ImageManipulation as im
 from src import Errors
+from datetime import datetime
 
 
 class SimuTransformer:
@@ -11,6 +12,9 @@ class SimuTransformer:
 
     def dump(self, msg=None, *args, **kwargs):
         if self.debug:
+            dt = datetime.now()
+            print(f"[{dt.strftime("%H:%M:%S.%f")}]", end =" ")
+
             if msg:
                 print(msg)
             if args:
@@ -27,6 +31,7 @@ class SimuTransformer:
             original = im.load_image(self.ruleset.resolve_path(file.source_path()))
             result = im.empty_image(file.dest_size())
             for edit in file.before_apply:
+                self.dump(before_apply=edit.__dict__)
                 result = edit.apply(result, self.ruleset)
 
             for ri, rule in enumerate(file.rules):
@@ -66,6 +71,7 @@ class SimuTransformer:
                 )
 
             for edit in file.after_apply:
+                self.dump(after_apply=edit.__dict__)
                 result = edit.apply(result, self.ruleset)
             # im.dump(image)
             im.save_image(result, self.ruleset.resolve_path(file.dest_path()))
