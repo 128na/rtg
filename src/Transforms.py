@@ -10,7 +10,7 @@ HLF = SGL / 2
 
 class ImageManipulation:
     @staticmethod
-    def dump(image):
+    def dump(image: cv2.typing.MatLike):
         plt.figure(facecolor="black")
         plt.grid(True, color="white", linewidth=0.5)
         plt.gca().set_xticks(np.arange(0, image.shape[1], 16))
@@ -134,7 +134,9 @@ class ImageManipulation:
 
 
 class ImageEdit:
-    def shift(image, ruleset: Ruleset, args: list):
+    def shift(
+        image: cv2.typing.MatLike, ruleset: Ruleset, args: list
+    ) -> cv2.typing.MatLike:
         # 画像がアルファチャンネルを持っているか確認
         if image.shape[2] == 4:
             # BGRとアルファチャンネルを分離
@@ -172,7 +174,9 @@ class ImageEdit:
         else:
             return shifted_bgr
 
-    def merge(image, ruleset: Ruleset, args: list):
+    def merge(
+        image: cv2.typing.MatLike, ruleset: Ruleset, args: list
+    ) -> cv2.typing.MatLike:
         path = args[0]
         xy = (args[1] if len(args) > 1 else 0, args[2] if len(args) > 2 else 0)
         dxdy = (args[3] if len(args) > 3 else 0, args[4] if len(args) > 4 else 0)
@@ -180,17 +184,27 @@ class ImageEdit:
 
         return ImageManipulation.paste(image, overlay, xy, dxdy)
 
-    def removeTransparent(image, ruleset: Ruleset):
+    def removeTransparent(
+        image: cv2.typing.MatLike, ruleset: Ruleset, args: list = []
+    ) -> cv2.typing.MatLike:
         specified_color = [255, 255, 231, 255]  # BGRA形式
+        threshold = args[0] if len(args) > 0 else 128
 
-        alpha_channel = image[:, :, 3]  # アルファチャンネル
-        mask = alpha_channel < 255  # 不透明部分
+        alpha_channel = image[:, :, 3]
+        mask_above_threshold = alpha_channel >= threshold
+        mask_below_threshold = alpha_channel < threshold
 
-        # 不透明部分を指定色に置き換え
-        image[mask] = specified_color
+        # 閾値以上の透明度を不透明にする
+        image[mask_above_threshold, 3] = 255
+
+        # 閾値未満の透明度を透過色にする
+        image[mask_below_threshold] = specified_color
+
         return image
 
-    def removeSpecial(image, ruleset: Ruleset):
+    def removeSpecial(
+        image: cv2.typing.MatLike, ruleset: Ruleset
+    ) -> cv2.typing.MatLike:
 
         # 置き換える色 (BGR形式)
         color_map = (
